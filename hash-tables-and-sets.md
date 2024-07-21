@@ -71,3 +71,106 @@ sha256("Hello, world!");
 
 * Conclusion
 Hash functions are critical in computing for their ability to create unique, fixed-size outputs from arbritrary input data. Understanding their deterministic nature and one-way functionality is essential for applications in security and efficient data management.
+
+
+
+# Hash Tables
+
+* Definition
+A hash table (or hash map) is a data structure that provides key/value storage with constant time complexity (O(1)) for insertion, deletion, access and search operations
+
+* Key Characteristics
+    • Key/value storage: stores data in key/value pairs
+    • Efficient Operations: constant time complexity for insertion, deletion, access, and search
+    • Underlying Structure: utilises an array where elements are indexed by hashed keys
+
+
+* Components of a Hash Table
+
+    1. Array of Buckets
+        • A fixed-size array where each slot (bucket) is initialised to null
+        • Example initialisation
+        ```js
+        let data = [null, null, null, null, null, null, null, null];
+        ```
+
+    2. Hash Function
+        • Converts keys to integers
+        • Example
+        ```js
+        function hash(str) {
+            let hashValue = 0;
+            for (let i = 0; i < str.length; i++) {
+                hashValue += str.charCodeAt(i);
+            }
+            return hashValue;
+        }
+        ```
+
+    3. Hash Mod Function
+        • Converts the key hash into a valid array index using the modulo operator
+        • Example:
+        ```js
+        function hashMod(key) {
+            return hash(key) % data.length;
+        }
+        ```
+
+        • Example Usage:
+        ```js
+        hashMod("Key"); // returns 1
+        hashMod("new key"); // returns 3
+        ```
+
+* Inserting into a Hash Table
+
+    1. Hash and Modulo Key: calculate the array index
+    ```js
+    let index = hashMod("key"); // Example index: 1
+    ```
+
+    2. Create Key/value pair: Store the pair in the calculated index
+    ```js
+    class KeyValuePair {
+        constructor(key, value) {
+            this.key = key;
+            this.value = value;
+        }
+    }
+    data[index] = new keyValuePair("key", "value");
+    ```
+
+    • Example State of Hash Table
+    ```js
+    HashTable {
+        data: [
+            null,
+            KeyValuePair { key: 'key', value: 'value' },
+            null,
+            KeyValuePair { key: 'new key', value: 'new value' },
+            null,
+            KeyValuePair { key: 'App Academy', value: 'Computer Science' },
+            null,
+            KeyValuePair { key: 'She sells seashells by the seashore...', value: 'Sally Seashell' }
+        ]
+    }
+    ```
+
+* Hash Collisions
+    • Occur when two keys hash to the same bucket
+    • Resolved using methods such as chaining or open addressing (discussed in further readings)
+
+* Performance Analysis
+
+    Time Complexity
+        • Insertion/deletion/access/search: O(1)
+        • Hash Function: O(n) (where n is the length of the key, typically negligable for small keys)
+
+    Space Complexity
+        • Storage: O(n): where n is the number of key/value pairs
+        • Memory Overhead: higher than the arrays due to empty buckets and storing both keys and pairs
+
+* Summary
+    • Hash tables combine hash functions with an array to provide efficient key/value storage
+    • Operations like insertion, deletion, access and search are performed in constant time
+    • Hash tables are foundational for many programming applications including JavaScript objects and sets
