@@ -174,3 +174,65 @@ A hash table (or hash map) is a data structure that provides key/value storage w
     • Hash tables combine hash functions with an array to provide efficient key/value storage
     • Operations like insertion, deletion, access and search are performed in constant time
     • Hash tables are foundational for many programming applications including JavaScript objects and sets
+
+
+# Hash Table Collisions
+
+* What is a Hash Collision?
+A hash collision occurs when two different keys hash to the same bucket index in a hash table. This happens because the hash function and modulo operation may return the same index for different keys.
+
+* Resolving Hash Collisions
+
+    1. Linked List Chaining:
+        • Concept: Each bucket in the hash table points to a linked list of key-value pairs
+        • Implementation: Add a pointer to each key-value pair, linking them in a chain
+        • Performance: Traversing the linked list is O(n) where n is the number of collisions in that bucket, but typically it's close to O(1) due to low collision probability.
+
+    2. Array Resizing:
+        • Concept: Increase the number of buckets to reduce the probability of collisions
+        • Implementation: Double the array size and rehash all existing key-value pairs
+        • Load Factor: Triggers resizing when the number of key-value pairs exceeds a threshold (commonly 0.7 times the number of buckets)
+        • Performance: Resizing is O(n) where n is the number of elements in the hash table, but this operation is infrequent
+
+* Example of Linked List Chaining
+    ```js
+    const ht = new HashTable();
+
+    ht.insert("a", "apple");
+    ht.insert("b", "banana");
+    ht.insert("c", "candy");
+    ht.insert("d", "durian");
+    ht.insert("e", "egg");
+    ht.insert("f", "fish");
+    ht.insert("g", "garlic");
+    ht.insert("h", "hamburger");
+    ht.insert("i", "ice cream");  // Collision with "a"
+
+    ht.data;
+    // 0: ["h", "hamburger"] -> null
+    // 1: ["a", "apple"] -> ["i", "ice cream"] -> null
+    // 2: ["b", "banana"] -> null
+    // 3: ["c", "candy"] -> null
+    // 4: ["d", "durian"] -> null
+    // 5: ["e", "egg"] -> null
+    // 6: ["f", "fish"] -> null
+    // 7: ["g", "garlic"] -> null
+    ```
+
+* Other Collision Resolution Methods
+    1. Double Hashing: Using a second hash function to determine the step size for probing
+    2. Open Addressing: Places collided elements in neighbouring buckets, then searches sequentially
+
+* Performance Implications
+    • Worst-case: O(n) if all keys hash to the same bucket
+    • Average-case: O(1) due to low collision probability with a well-distributed hash function and appropriate bucket resizing
+
+* Load Factor and Resizing
+    • Load Factor: Ratio of the number of elements to the number of buckets
+    • Resizing: Increases the number of buckets to maintain efficient operations, commonly done when the load factor exceeds 0.7
+
+* Summary
+    • Hash Collisions: occur when different keys map to the same bucket
+    • Resolution: linked list chaining and array resizing are common techniques
+    • Performance: generally efficient with O(1) operations, but can degrade to O(n) in worst-case scenarios
+    • Load Factor: critical for determining when to resize the hash table to maintain performance
