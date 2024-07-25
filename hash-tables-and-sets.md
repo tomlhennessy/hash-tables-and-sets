@@ -236,3 +236,87 @@ A hash collision occurs when two different keys hash to the same bucket index in
     • Resolution: linked list chaining and array resizing are common techniques
     • Performance: generally efficient with O(1) operations, but can degrade to O(n) in worst-case scenarios
     • Load Factor: critical for determining when to resize the hash table to maintain performance
+
+
+
+# Sets
+
+* Definition
+    • Set (Mathematics): A well-defined collection of distinct elements
+    • Set (Computer Science): An abstract data type used to store a collection of unique, unordered values
+
+* Properties of a Set
+    1. No duplicates: a set contains no duplicate elements
+    2. Unordered: The elements in a set are not stored in any particular order
+    3. Constant Time Lookup: checking if an element is in a set is done in O(1) time
+
+* When to Use a Set
+    • Use a set when you need to store unique values without any specific order
+    • the main advantage over arrays is the constant time lookup
+
+* Comparing Arrays and Sets
+    • Array: uses `.includes(x)` method with O(n) time complexity
+    • Set: uses `.has(x)` method with O(1) time complexity
+
+Performance Test Example
+```js
+let n = 100000;
+
+// fill an array with integers
+const arr = [];
+for (let i = 0; i < n; i++) {
+    arr.push(i);
+}
+
+// fill a set with integers
+const set = new Set(arr);
+
+// search the array
+let startTimeArray = Date.now();
+for (let i = 0; i < 2 * n; i++) {
+    arr.includes(i);
+}
+let endTimeArray = Date.now();
+
+// search the set
+let startTimeSet = Date.now();
+for (let i = 0; i < 2 * n; i++) {
+    set.has(i);
+}
+let endTimeSet = Date.now();
+
+console.log(`Array: ${endTimeArray - startTimeArray}ms`);
+console.log(`Set: ${endTimeSet - startTimeSet}ms`);
+```
+
+* Performance Results
+    • Array:
+        n = 50000: 3630ms
+        n = 100000: 15028ms
+
+    • Set:
+        n = 50000: 7ms
+        n = 100000: 12ms
+
+
+* Set Implementation
+    • Abstract Data Type (ADT): implementation varies by language and use case
+    • Typically Uses Hash Tables:
+        • Keys only: stores keys without values
+        • Underlying structure: an array with preallocated buckets
+        • Hashing: values are hashed and stored in specific array indices
+        • Collision Handling: manages collisions, worst-case O(n) for that bucket
+        • Load Factor: when exceeding 0.7, a new larger array is allocated, values rehashed and copied
+
+* Advantages of Using Sets
+    • O(1) Search Functionality: achieved through hash tables
+    • Uniqueness and Unordered: ensured by hash table properties
+    • Space Complexity: O(n) with some overhead for empty buckets
+
+* Summary
+    • Key Properties: unique elements, unordered, O(1) lookup
+    • Performance: Significant gains over arrays for large datasets
+    • Implementation: Hash tables ensure efficiency and property adherance
+
+* Practical Usage
+    • Recognise situations where sets can optimise performance over arrays, especially in scenarios requiring frequent membership checks or ensuring unique elements
